@@ -154,6 +154,15 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- my own custom vim settings start here.
+--
+-- added a column line
+vim.opt.colorcolumn = '120'
+-- added custom move command
+vim.g.move_key_modifier_visualmode = 'S'
+--
+-- end of personal custom settings.
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
