@@ -5,4 +5,5 @@
 return {
   { 'xiyaowong/transparent.nvim' },
   { 'matze/vim-move' },
+  { 'norcalli/nvim-colorizer.lua' },
 }
