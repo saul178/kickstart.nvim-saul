@@ -161,6 +161,24 @@ vim.opt.colorcolumn = '120'
 -- added custom move command
 vim.g.move_key_modifier_visualmode = 'S'
 --
+-- ill figure this out later but this is the hyprlandlsp
+-- Hyprlang LSP
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+  pattern = { '*.hl', 'hypr*.conf' },
+  callback = function(event)
+    print(string.format('starting hyprls for %s', vim.inspect(event)))
+    vim.lsp.start {
+      name = 'hyprlang',
+      cmd = { 'hyprls' },
+      root_dir = vim.fn.getcwd(),
+    }
+  end,
+})
+
+-- more hyprlang syntax highlight
+vim.filetype.add {
+  pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang' },
+}
 -- end of personal custom settings.
 
 -- [[ Basic Keymaps ]]
