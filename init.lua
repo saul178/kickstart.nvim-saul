@@ -68,7 +68,7 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- my own custom vim settings start here.
+-- NOTE: my own custom vim settings start here.
 --
 -- added a column line
 vim.opt.colorcolumn = '120'
@@ -95,7 +95,16 @@ vim.filetype.add {
   pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang' },
 }
 
--- end of personal custom settings.
+-- Neo-tree highlight for transparency
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_set_hl(0, 'NeoTreeNormal', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'NeoTreeNormalNC', { bg = 'NONE' })
+  end,
+})
+
+--NOTE: end of personal custom settings.
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
