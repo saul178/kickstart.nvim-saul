@@ -749,6 +749,7 @@ require('lazy').setup({
       -- vim.cmd.colorscheme 'rose-pine'
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
+      vim.cmd 'highlight ColorColumn ctermbg=0 guibg=#4E737F'
     end,
   },
 
