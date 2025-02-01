@@ -68,12 +68,13 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
---NOTE: my own custom vim settings start here.
+-- NOTE: my own custom vim settings start here.
 --
 -- added a column line
 vim.opt.colorcolumn = '120'
 -- added custom move command
 vim.g.move_key_modifier_visualmode = 'S'
+--
 --
 -- ill figure this out later but this is the hyprlandlsp
 -- Hyprlang LSP
@@ -104,9 +105,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 --NOTE: end of personal custom settings.
-
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -223,7 +221,6 @@ require('lazy').setup({
   -- Then, because we use the `config` key, the configuration only runs
   -- after the plugin has been loaded:
   --  config = function() ... end
-
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -255,7 +252,9 @@ require('lazy').setup({
     event = 'VimEnter',
     branch = '0.1.x',
     dependencies = {
+      'nvim-lua/popup.nvim',
       'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-media-files.nvim',
       { -- If encountering errors, see telescope-fzf-native README for installation instructions
         'nvim-telescope/telescope-fzf-native.nvim',
 
@@ -270,7 +269,6 @@ require('lazy').setup({
         end,
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
-
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
@@ -300,13 +298,17 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
+        defaults = {
+          initial_mode = 'normal',
+          --   mappings = {
+          --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+        },
         -- },
         -- pickers = {}
         extensions = {
+          media_files = {
+            filetypes = { 'png', 'webp', 'jpg', 'jpeg' },
+          },
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
@@ -316,6 +318,7 @@ require('lazy').setup({
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'media_files')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -530,7 +533,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        ts_ls = { capabilities = capabilities },
+        ts_ls = {},
 
         lua_ls = {
           -- cmd = {...},
