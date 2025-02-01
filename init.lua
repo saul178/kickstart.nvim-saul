@@ -742,6 +742,7 @@ require('lazy').setup({
     -- 'rose-pine/neovim',
     'comfysage/evergarden',
     priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
+
     opts = {
       transparent_background = true,
       variant = 'hard', -- 'hard'|'medium'|'soft'
@@ -796,7 +797,8 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
-      -- ... and there is more!
+      require('mini.comment').setup()
+
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
