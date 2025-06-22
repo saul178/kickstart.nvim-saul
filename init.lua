@@ -564,6 +564,7 @@ require('lazy').setup({
             },
           },
         },
+        jsonls = {},
       }
       ---@type MasonLspconfigSettings
       ---@diagnostic disable-next-line: missing-fields
