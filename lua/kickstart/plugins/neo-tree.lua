@@ -15,6 +15,9 @@ return {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+    window = {
+      width = 30,
+    },
     filesystem = {
       window = {
         mappings = {
