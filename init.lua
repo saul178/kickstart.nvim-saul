@@ -80,6 +80,16 @@ vim.opt.colorcolumn = '120'
 vim.g.move_key_modifier_visualmode = 'S'
 --
 --
+-- set docker-compose filetypes
+vim.filetype.add {
+  filename = {
+    ['docker-compose.yml'] = 'yaml.docker-compose',
+    ['docker-compose.yaml'] = 'yaml.docker-compose',
+    ['compose.yml'] = 'yaml.docker-compose',
+    ['compose.yaml'] = 'yaml.docker-compose',
+  },
+}
+--
 -- ill figure this out later but this is the hyprlandlsp
 -- Hyprlang LSP
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
@@ -292,8 +302,11 @@ require('lazy').setup({
         --
         defaults = {
           initial_mode = 'normal',
-          --   mappings = {
-          --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          mappings = {
+            n = {
+              ['dd'] = require('telescope.actions').delete_buffer,
+            },
+          },
         },
         -- },
         -- pickers = {}
@@ -514,6 +527,7 @@ require('lazy').setup({
       }
 
       local vue_language_server_path = vim.fn.expand '$MASON/packages' .. '/vue-language-server' .. '/node_modules/@vue/language-server'
+
       local servers = {
         clangd = {
           filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
@@ -530,25 +544,69 @@ require('lazy').setup({
 
         pyright = {},
 
-        ts_ls = {
+        -- ts_ls = {},
+
+        -- fucking bullshit that this keeps fucking changing and breaking lsp!
+        vue_ls = {
           init_options = {
-            plugins = {
-              {
-                name = '@vue/typescript-plugin',
-                location = vue_language_server_path,
-                languages = { 'vue' },
+            typescript = { serverPath = '' },
+          },
+          on_init = function(client)
+            client.handlers['tsserver/request'] = function(_, result, context)
+              local clients = vim.lsp.get_clients { bufnr = context.bufnr, name = 'vtsls' }
+              if #clients == 0 then
+                vim.notify('Could not found `vtsls` lsp client, vue_lsp would not work without it.', vim.log.levels.ERROR)
+                return
+              end
+              local ts_client = clients[1]
+
+              local param = unpack(result)
+              local id, command, payload = unpack(param)
+              ts_client:exec_cmd({
+                title = 'vue_request_forward', -- You can give title anything as it's used to represent a command in the UI, `:h Client:exec_cmd`
+                command = 'typescript.tsserverRequest',
+                arguments = {
+                  command,
+                  payload,
+                },
+              }, { bufnr = context.bufnr }, function(_, r)
+                local response_data = { { id, r.body } }
+                ---@diagnostic disable-next-line: param-type-mismatch
+                client:notify('tsserver/response', response_data)
+              end)
+            end
+          end,
+        },
+
+        vtsls = {
+          settings = {
+            typescript = {
+              tsserver = {
+                maxTsServerMemory = 8192,
+                watchOptions = {
+                  watchFile = 'useFsEvents',
+                  watchDirectory = 'useFsEvents',
+                  fallbackPolling = 'dynamicPriority',
+                },
+              },
+            },
+            vtsls = {
+              autoUseWorkspaceTsdk = true,
+              tsserver = {
+                globalPlugins = {
+                  {
+                    name = '@vue/typescript-plugin',
+                    location = vue_language_server_path,
+                    languages = { 'vue' },
+                    configNamespace = 'typescript',
+                    enableForWorkspaceTypeScriptVersions = true,
+                  },
+                },
               },
             },
           },
-          filetypes = {
-            'typescript',
-            'javascript',
-            'javascriptreact',
-            'typescriptreact',
-            'vue',
-          },
+          filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'vue' },
         },
-        vue_ls = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -564,6 +622,11 @@ require('lazy').setup({
             },
           },
         },
+
+        dockerls = {},
+        docker_compose_language_service = {},
+        nginx_language_server = {},
+
         jsonls = {},
       }
       ---@type MasonLspconfigSettings
@@ -748,7 +811,7 @@ require('lazy').setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = { signs = false },
     keys = {
-      { '<leader>st', '<cmd>TodoTelescop<cr>', desc = 'Todo' },
+      { '<leader>st', '<cmd>TodoTelescope<cr>', desc = 'Todo' },
     },
   },
 
