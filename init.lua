@@ -75,7 +75,7 @@ vim.o.scrolloff = 10
 -- NOTE: my own custom vim settings start here.
 --
 -- added a column line
-vim.opt.colorcolumn = '120'
+-- :vim.opt.colorcolumn = '120'
 -- added custom move command
 vim.g.move_key_modifier_visualmode = 'S'
 --
@@ -683,6 +683,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         python = { 'black' },
         clangd = { 'clang-format' },
+        nginx_language_server = { 'nginxfmt' },
       },
     },
   },
