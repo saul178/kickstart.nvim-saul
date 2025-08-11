@@ -89,25 +89,6 @@ vim.filetype.add {
     ['compose.yaml'] = 'yaml.docker-compose',
   },
 }
---
--- ill figure this out later but this is the hyprlandlsp
--- Hyprlang LSP
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
-  pattern = { '*.hl', 'hypr*.conf' },
-  callback = function(event)
-    print(string.format('starting hyprls for %s', vim.inspect(event)))
-    vim.lsp.start {
-      name = 'hyprlang',
-      cmd = { 'hyprls' },
-      root_dir = vim.fn.getcwd(),
-    }
-  end,
-})
-
--- more hyprlang syntax highlight
-vim.filetype.add {
-  pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang' },
-}
 
 -- Neo-tree highlight for transparency
 vim.api.nvim_create_autocmd('BufEnter', {
@@ -543,6 +524,10 @@ require('lazy').setup({
         },
 
         pyright = {},
+
+        hyprls = {
+          filetypes = { 'hyprlang' },
+        },
 
         -- ts_ls = {},
 
