@@ -610,9 +610,12 @@ require('lazy').setup({
 
         dockerls = {},
         docker_compose_language_service = {},
-        nginx_language_server = {},
-
         jsonls = {},
+        tombi = {
+          cmd = { 'tombi', 'lsp' },
+          filetypes = { 'toml' },
+          root_markers = { 'tombi.toml', 'pyproject.toml', '.git' },
+        },
       }
       ---@type MasonLspconfigSettings
       ---@diagnostic disable-next-line: missing-fields
