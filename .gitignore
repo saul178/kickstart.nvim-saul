@@ -4,13 +4,6 @@ test.sh
 nvim
 
 spell/
-<<<<<<< HEAD
-# lazy-lock.json
-=======
-
-# You can uncomment this yourself if you want to lock the lazy-lock.json,
-# but for kickstart, it makes sense to leave it ignored.
 lazy-lock.json
 
 .DS_Store
->>>>>>> e79572c9e6978787af2bca164a85ab6821caeb7b
