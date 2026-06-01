@@ -94,5 +94,11 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
+vim.api.nvim_create_autocmd('ModeChanged', {
+  command = 'LuaSnipUnlinkCurrent',
+  desc = "Close code snippet editing after insert mode exit, so <Tab> won't unexpectedly jump back to it",
+  pattern = 'i:*',
+})
+
 --NOTE: end of personal custom settings.
 --
