@@ -33,7 +33,7 @@ return {
           section = 'terminal',
           pane = 2,
           -- cmd = 'ascii-image-converter -Cb ~/directories/Pictures/terminal-pics/G89pZAQb0AMTa3m-nobg.png; sleep .5',
-          cmd = 'chafa ~/directories/Pictures/terminal-pics/G89pZAQb0AMTa3m-nobg.png --format symbols --symbols vhalf --colors full; sleep .1',
+          cmd = 'chafa ~/directories/Pictures/terminal-pics/G89pZAQb0AMTa3m-nobg.png --format symbols --symbols vhalf --colors full; sleep .5',
           height = 55,
           width = 100,
         },
