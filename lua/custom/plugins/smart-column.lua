@@ -13,6 +13,7 @@ return {
       'Trouble',
       'fish',
       'zsh',
+      'snacks_dashboard',
     },
   },
 }

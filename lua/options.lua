@@ -99,6 +99,24 @@ vim.api.nvim_create_autocmd('ModeChanged', {
   desc = "Close code snippet editing after insert mode exit, so <Tab> won't unexpectedly jump back to it",
   pattern = 'i:*',
 })
+--
+local open_dashboard_if_empty_buffer = function()
+  local buf = vim.api.nvim_get_current_buf()
+  local win = vim.api.nvim_get_current_win()
+  local is_empty = vim.api.nvim_buf_get_name(buf) == '' and vim.bo[buf].filetype == '' and not vim.bo[buf].modified
+  if not is_empty then
+    return
+  end
 
+  require('snacks.dashboard').open { buf = buf, win = win }
+end
+
+_G.close_buffer = function()
+  require('snacks').bufdelete {
+    filter = function(buf) return vim.bo[buf].filetype ~= 'snacks_dashboard' end,
+  }
+
+  vim.schedule(open_dashboard_if_empty_buffer)
+end
 --NOTE: end of personal custom settings.
 --

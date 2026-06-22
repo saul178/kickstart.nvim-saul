@@ -4,32 +4,38 @@ return {
   lazy = false,
   ---@type snacks.Config
   opts = {
+    image = {
+      enable = true,
+    },
     dashboard = {
       enable = true,
       sections = {
+        { padding = 15 },
         {
-          section = 'terminal',
-          cmd = 'ascii-image-converter -Cb -d 100,15 ~/directories/Pictures/chun-terminal-pics/chun-kiss-hearts-transparant.png',
-          height = 15,
-          width = 100,
-          padding = 2,
-          indent = -20,
+          title = 'Bookmarks',
+          section = 'keys',
+          padding = 1,
         },
-        { title = 'Bookmarks', section = 'keys', padding = 1 },
         {
           title = 'Projects',
           section = 'projects',
-          indent = 2,
           padding = 1,
           picks = true,
+          indent = 2,
         },
-        { title = 'Recent Files', section = 'recent_files', indent = 2, padding = 2 },
+        {
+          title = 'Recent Files',
+          section = 'recent_files',
+          padding = 2,
+          indent = 2,
+        },
         {
           section = 'terminal',
-          cmd = 'ascii-image-converter -Cb -d 128,58 ~/directories/Pictures/chun-terminal-pics/chun-horny3-transparant.png; sleep .5',
-          height = 58,
-          width = 128,
           pane = 2,
+          -- cmd = 'ascii-image-converter -Cb ~/directories/Pictures/terminal-pics/G89pZAQb0AMTa3m-nobg.png; sleep .5',
+          cmd = 'chafa ~/directories/Pictures/terminal-pics/G89pZAQb0AMTa3m-nobg.png --format symbols --symbols vhalf --colors full; sleep .1',
+          height = 55,
+          width = 100,
         },
       },
     },
@@ -54,16 +60,12 @@ return {
   keys = {
     {
       '<leader>cR',
-      function()
-        Snacks.rename.rename_file()
-      end,
+      function() Snacks.rename.rename_file() end,
       desc = 'Rename File',
     },
     {
       '<leader>un',
-      function()
-        Snacks.notifier.hide()
-      end,
+      function() Snacks.notifier.hide() end,
       desc = 'Dismiss All Notifications',
     },
   },
@@ -72,12 +74,8 @@ return {
       pattern = 'VeryLazy',
       callback = function()
         -- Setup some globals for debugging (lazy-loaded)
-        _G.dd = function(...)
-          Snacks.debug.inspect(...)
-        end
-        _G.bt = function()
-          Snacks.debug.backtrace()
-        end
+        _G.dd = function(...) Snacks.debug.inspect(...) end
+        _G.bt = function() Snacks.debug.backtrace() end
         vim.print = _G.dd -- Override print to use snacks for `:=` command
 
         -- Create some toggle mappings
